@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		00211BA81C9B7AF600479A27 /* Geofence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00211BA71C9B7AF600479A27 /* Geofence.swift */; };
+		00211BAA1C9B811E00479A27 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00211BA91C9B811E00479A27 /* Utilities.swift */; };
 		00CFE8D51C9A333A00843791 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00CFE8D41C9A333A00843791 /* AppDelegate.swift */; };
 		00CFE8D71C9A333A00843791 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00CFE8D61C9A333A00843791 /* ViewController.swift */; };
 		00CFE8DA1C9A333B00843791 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 00CFE8D81C9A333B00843791 /* Main.storyboard */; };
@@ -34,6 +36,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		00211BA71C9B7AF600479A27 /* Geofence.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Geofence.swift; sourceTree = "<group>"; };
+		00211BA91C9B811E00479A27 /* Utilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
 		00CFE8D11C9A333A00843791 /* geofence.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = geofence.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		00CFE8D41C9A333A00843791 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		00CFE8D61C9A333A00843791 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -99,6 +103,8 @@
 			children = (
 				00CFE8D41C9A333A00843791 /* AppDelegate.swift */,
 				00CFE8D61C9A333A00843791 /* ViewController.swift */,
+				00211BA91C9B811E00479A27 /* Utilities.swift */,
+				00211BA71C9B7AF600479A27 /* Geofence.swift */,
 				00CFE8D81C9A333B00843791 /* Main.storyboard */,
 				00CFE8DB1C9A333B00843791 /* Assets.xcassets */,
 				00CFE8DD1C9A333B00843791 /* LaunchScreen.storyboard */,
@@ -194,6 +200,11 @@
 					00CFE8D01C9A333A00843791 = {
 						CreatedOnToolsVersion = 7.2.1;
 						DevelopmentTeam = NJXXQ3AW8D;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+						};
 					};
 					00CFE8E41C9A333B00843791 = {
 						CreatedOnToolsVersion = 7.2.1;
@@ -259,7 +270,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				00211BA81C9B7AF600479A27 /* Geofence.swift in Sources */,
 				00CFE8D71C9A333A00843791 /* ViewController.swift in Sources */,
+				00211BAA1C9B811E00479A27 /* Utilities.swift in Sources */,
 				00CFE8D51C9A333A00843791 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -485,6 +498,7 @@
 				00CFE8FB1C9A333B00843791 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		00CFE8FC1C9A333B00843791 /* Build configuration list for PBXNativeTarget "geofenceTests" */ = {
 			isa = XCConfigurationList;
@@ -493,6 +507,7 @@
 				00CFE8FE1C9A333B00843791 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		00CFE8FF1C9A333B00843791 /* Build configuration list for PBXNativeTarget "geofenceUITests" */ = {
 			isa = XCConfigurationList;
@@ -501,6 +516,7 @@
 				00CFE9011C9A333B00843791 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
