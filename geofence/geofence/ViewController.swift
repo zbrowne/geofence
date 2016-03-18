@@ -8,11 +8,15 @@
 
 import UIKit
 import CoreLocation
+import MapKit
 
-class ViewController: UIViewController, CLLocationManagerDelegate {
+class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate {
+    
+    @IBOutlet weak var mapView: MKMapView!
     
     let locationManager = CLLocationManager()
-
+    var geofenceDict = [String: Geofence]()
+    let region = MKCoordinateRegion(center: CLLocationCoordinate2DMake(37.776687, -122.394867), span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01))
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -31,11 +35,14 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
             locationManager.requestWhenInUseAuthorization()
         }
         
-        let coord = CLLocationCoordinate2DMake(37.7833, -122.4167)
-        let radius = 100
+        let coord = CLLocationCoordinate2DMake(37.776687, -122.394867) // coordinates for 4th and king station in SF
+        let radius = 100.0
         
-        Geofence.init(coordinate: coord, radius: 100, identifier: "San Francisco", note: "Testing Location", eventType: EventType.OnEntry)
-        
+        let sfGeofence = Geofence(coordinate: coord, radius: radius, identifier: "San Francisco Station", note: "700 4th street, SF", eventType: EventType.OnEntry)
+        startMonitoringGeofence(sfGeofence)
+        geofenceDict[sfGeofence.identifier] = sfGeofence
+        addRadiusOverlayForGeofence(sfGeofence)
+        setRegion(region, animated: true)
     }
 
     override func didReceiveMemoryWarning() {
@@ -61,6 +68,27 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         }
         let region = regionWithGeofence(geofence)
         locationManager.startMonitoringForRegion(region)
+        print ("monitoring for region")
     }
+    
+    func addRadiusOverlayForGeofence(geofence: Geofence) {
+        mapView.addOverlay(MKCircle(centerCoordinate: geofence.coordinate, radius: geofence.radius))
+    }
+    
+    func setRegion(region: MKCoordinateRegion, animated: Bool) {
+        mapView.setRegion(region, animated: true)
+    }
+    
+    func mapView(mapView: MKMapView, rendererForOverlay overlay: MKOverlay) -> MKOverlayRenderer {
+        if overlay is MKCircle {
+            let circleRenderer = MKCircleRenderer(overlay: overlay)
+            circleRenderer.lineWidth = 1.0
+            circleRenderer.strokeColor = UIColor.purpleColor()
+            circleRenderer.fillColor = UIColor.purpleColor().colorWithAlphaComponent(0.4)
+            return circleRenderer
+        }
+        return MKPolylineRenderer()
+    }
+    
 }
 
