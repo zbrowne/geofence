@@ -16,6 +16,8 @@
 		00CFE8DF1C9A333B00843791 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 00CFE8DD1C9A333B00843791 /* LaunchScreen.storyboard */; };
 		00CFE8EA1C9A333B00843791 /* geofenceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00CFE8E91C9A333B00843791 /* geofenceTests.swift */; };
 		00CFE8F51C9A333B00843791 /* geofenceUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00CFE8F41C9A333B00843791 /* geofenceUITests.swift */; };
+		00EDDF8C1C9F701900C60F66 /* Stations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00EDDF8B1C9F701900C60F66 /* Stations.swift */; };
+		00EDDF901C9FA4A600C60F66 /* testlocations.gpx in Resources */ = {isa = PBXBuildFile; fileRef = 00EDDF8F1C9FA4A600C60F66 /* testlocations.gpx */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +53,8 @@
 		00CFE8F01C9A333B00843791 /* geofenceUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = geofenceUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00CFE8F41C9A333B00843791 /* geofenceUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = geofenceUITests.swift; sourceTree = "<group>"; };
 		00CFE8F61C9A333B00843791 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		00EDDF8B1C9F701900C60F66 /* Stations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Stations.swift; sourceTree = "<group>"; };
+		00EDDF8F1C9FA4A600C60F66 /* testlocations.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = testlocations.gpx; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,6 +85,7 @@
 		00CFE8C81C9A333A00843791 = {
 			isa = PBXGroup;
 			children = (
+				00EDDF8F1C9FA4A600C60F66 /* testlocations.gpx */,
 				00CFE8D31C9A333A00843791 /* geofence */,
 				00CFE8E81C9A333B00843791 /* geofenceTests */,
 				00CFE8F31C9A333B00843791 /* geofenceUITests */,
@@ -109,6 +114,7 @@
 				00CFE8DB1C9A333B00843791 /* Assets.xcassets */,
 				00CFE8DD1C9A333B00843791 /* LaunchScreen.storyboard */,
 				00CFE8E01C9A333B00843791 /* Info.plist */,
+				00EDDF8B1C9F701900C60F66 /* Stations.swift */,
 			);
 			path = geofence;
 			sourceTree = "<group>";
@@ -245,6 +251,7 @@
 			files = (
 				00CFE8DF1C9A333B00843791 /* LaunchScreen.storyboard in Resources */,
 				00CFE8DC1C9A333B00843791 /* Assets.xcassets in Resources */,
+				00EDDF901C9FA4A600C60F66 /* testlocations.gpx in Resources */,
 				00CFE8DA1C9A333B00843791 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -271,6 +278,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				00211BA81C9B7AF600479A27 /* Geofence.swift in Sources */,
+				00EDDF8C1C9F701900C60F66 /* Stations.swift in Sources */,
 				00CFE8D71C9A333A00843791 /* ViewController.swift in Sources */,
 				00211BAA1C9B811E00479A27 /* Utilities.swift in Sources */,
 				00CFE8D51C9A333A00843791 /* AppDelegate.swift in Sources */,

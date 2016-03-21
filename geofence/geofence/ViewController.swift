@@ -15,12 +15,14 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
     @IBOutlet weak var mapView: MKMapView!
     
     let locationManager = CLLocationManager()
-    var geofenceDict = [String: Geofence]()
     let region = MKCoordinateRegion(center: CLLocationCoordinate2DMake(37.776687, -122.394867), span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01))
+    let stations = Caltrain.sharedInstance().stations
+    let radius = 100.0
+
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-
+        
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.distanceFilter = 10.0
@@ -35,14 +37,13 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
             locationManager.requestWhenInUseAuthorization()
         }
         
-        let coord = CLLocationCoordinate2DMake(37.776687, -122.394867) // coordinates for 4th and king station in SF
-        let radius = 100.0
-        
-        let sfGeofence = Geofence(coordinate: coord, radius: radius, identifier: "San Francisco Station", note: "700 4th street, SF", eventType: EventType.OnEntry)
+        print(stations.count)
+        for station in stations {
+        let sfGeofence = Geofence(coordinate: station.coord, radius: radius, identifier: station.name, note: station.address, eventType: EventType.OnEntry)
         startMonitoringGeofence(sfGeofence)
-        geofenceDict[sfGeofence.identifier] = sfGeofence
         addRadiusOverlayForGeofence(sfGeofence)
         setRegion(region, animated: true)
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -55,6 +56,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         let region = CLCircularRegion(center: geofence.coordinate, radius: geofence.radius, identifier: geofence.identifier)
         region.notifyOnEntry = (geofence.eventType == .OnEntry)
         region.notifyOnExit = !region.notifyOnEntry
+        print(region)
         return region
     }
     
@@ -69,6 +71,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         let region = regionWithGeofence(geofence)
         locationManager.startMonitoringForRegion(region)
         print ("monitoring for region")
+        print(region)
     }
     
     func addRadiusOverlayForGeofence(geofence: Geofence) {
@@ -88,6 +91,21 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
             return circleRenderer
         }
         return MKPolylineRenderer()
+    }
+    
+    func locationManager(manager: CLLocationManager, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
+        mapView.showsUserLocation = (status == .AuthorizedAlways)
+    }
+    
+    // error handling
+    
+    func locationManager(manager: CLLocationManager, monitoringDidFailForRegion region: CLRegion?, withError error: NSError) {
+        print("Monitoring failed for region with identifier: \(region!.identifier)")
+        print(error)
+    }
+    
+    func locationManager(manager: CLLocationManager, didFailWithError error: NSError) {
+        print("Location Manager failed with the following error: \(error)")
     }
     
 }
