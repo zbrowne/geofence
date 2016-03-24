@@ -9,23 +9,16 @@
 import Foundation
 import CoreLocation
 
-enum EventType: Int {
-    case OnEntry = 0
-    case OnExit
-}
-
 class Geofence {
     var coordinate: CLLocationCoordinate2D
     var radius: CLLocationDistance
     var identifier: String
     var note: String
-    var eventType: EventType
     
-    init(coordinate: CLLocationCoordinate2D, radius: CLLocationDistance, identifier: String, note: String, eventType: EventType) {
+    init(coordinate: CLLocationCoordinate2D, radius: CLLocationDistance, identifier: String, note: String) {
         self.coordinate = coordinate
         self.radius = radius
         self.identifier = identifier
         self.note = note
-        self.eventType = eventType
     }
 }

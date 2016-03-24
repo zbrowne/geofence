@@ -24,8 +24,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         // Do any additional setup after loading the view, typically from a nib.
         
         locationManager.delegate = self
-        locationManager.desiredAccuracy = kCLLocationAccuracyBest
-        locationManager.distanceFilter = 10.0
+        locationManager.requestAlwaysAuthorization()
         locationManager.pausesLocationUpdatesAutomatically = true
         if #available(iOS 9.0, *) {
             locationManager.allowsBackgroundLocationUpdates = true
@@ -33,15 +32,11 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
             // Fallback on earlier versions
         }
         
-        if CLLocationManager.authorizationStatus() == .NotDetermined {
-            locationManager.requestWhenInUseAuthorization()
-        }
-        
-        print(stations.count)
         for station in stations {
-        let sfGeofence = Geofence(coordinate: station.coord, radius: radius, identifier: station.name, note: station.address, eventType: EventType.OnEntry)
-        startMonitoringGeofence(sfGeofence)
-        addRadiusOverlayForGeofence(sfGeofence)
+        let stationGeofence = Geofence(coordinate: station.coord, radius: radius, identifier: station.name, note: station.address)
+        startMonitoringGeofence(stationGeofence)
+        addRadiusOverlayForGeofence(stationGeofence)
+        addPlatformBoundary(station)
         setRegion(region, animated: true)
         }
     }
@@ -51,12 +46,10 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         // Dispose of any resources that can be recreated.
     }
     
+    // functions for region monitoring
     
     func regionWithGeofence(geofence: Geofence) -> CLCircularRegion {
         let region = CLCircularRegion(center: geofence.coordinate, radius: geofence.radius, identifier: geofence.identifier)
-        region.notifyOnEntry = (geofence.eventType == .OnEntry)
-        region.notifyOnExit = !region.notifyOnEntry
-        print(region)
         return region
     }
     
@@ -70,12 +63,16 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         }
         let region = regionWithGeofence(geofence)
         locationManager.startMonitoringForRegion(region)
-        print ("monitoring for region")
-        print(region)
     }
+    
+    // functions for mapview
     
     func addRadiusOverlayForGeofence(geofence: Geofence) {
         mapView.addOverlay(MKCircle(centerCoordinate: geofence.coordinate, radius: geofence.radius))
+    }
+    
+    func addPlatformBoundary(station: Station) {
+        mapView.addOverlay(station.platform)
     }
     
     func setRegion(region: MKCoordinateRegion, animated: Bool) {
@@ -83,12 +80,17 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
     }
     
     func mapView(mapView: MKMapView, rendererForOverlay overlay: MKOverlay) -> MKOverlayRenderer {
-        if overlay is MKCircle {
+        if let overlay = overlay as? MKCircle {
             let circleRenderer = MKCircleRenderer(overlay: overlay)
             circleRenderer.lineWidth = 1.0
             circleRenderer.strokeColor = UIColor.purpleColor()
             circleRenderer.fillColor = UIColor.purpleColor().colorWithAlphaComponent(0.4)
             return circleRenderer
+        }
+        if let overlay = overlay as? MKPolygon {
+            let polygonView = MKPolygonRenderer(overlay: overlay)
+            polygonView.strokeColor = UIColor.magentaColor()
+            return polygonView
         }
         return MKPolylineRenderer()
     }
@@ -101,11 +103,11 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
     
     func locationManager(manager: CLLocationManager, monitoringDidFailForRegion region: CLRegion?, withError error: NSError) {
         print("Monitoring failed for region with identifier: \(region!.identifier)")
-        print(error)
+        NSLog(String(error))
     }
     
     func locationManager(manager: CLLocationManager, didFailWithError error: NSError) {
-        print("Location Manager failed with the following error: \(error)")
+        NSLog("Location Manager failed with the following error: \(error)")
     }
     
 }

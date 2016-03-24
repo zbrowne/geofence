@@ -49,28 +49,30 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
     
-    func handleRegionEvent(region: CLRegion!) {
-        print("Geofence triggered!")
-    }
-    
     func locationManager(manager: CLLocationManager, didEnterRegion region: CLRegion) {
         if region is CLCircularRegion {
-            handleRegionEvent(region)
             let notification = UILocalNotification()
             notification.alertBody = "Entered Region"
             notification.soundName = "Default"
             UIApplication.sharedApplication().presentLocalNotificationNow(notification)
+            NSLog("Entered Region")
+            locationManager.startUpdatingLocation()
         }
     }
     
     func locationManager(manager: CLLocationManager, didExitRegion region: CLRegion) {
         if region is CLCircularRegion {
-            handleRegionEvent(region)
             let notification = UILocalNotification()
             notification.alertBody = "Exited Region"
             notification.soundName = "Default"
             UIApplication.sharedApplication().presentLocalNotificationNow(notification)
+            NSLog("Exited Region")
+            locationManager.stopUpdatingLocation()
         }
+    }
+    
+    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        print (locations.last?.coordinate)
     }
 
 

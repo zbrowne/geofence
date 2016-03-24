@@ -16,7 +16,18 @@ struct Caltrain {
     }
     
     let stations: [Station] = [
-        Station(name: "Borderlands Cafe", address: "866 Valencia Street, SAan Francisco, 94110", lat: 37.758986, long: -122.421330, zone: 0),
+        Station(
+            name: "Borderlands Cafe",
+            address: "866 Valencia Street, San Francisco, 94110",
+            zone: 0,
+            center: (37.758986, -122.421330),
+            platform: [
+                (37.760054, -122.421502),
+                (37.756936, -122.421185),
+                (37.756945, -122.421078),
+                (37.760062, -122.421384)
+            ])
+        
         /*Station(name: "San Francisco", address: "700 4th St., San Francisco 94107", lat: 37.775874, long: -122.395556, zone: 1),
         Station(name: "22nd Street", address: "1149 22nd St., San Francisco 94107", lat: 37.757247, long: -122.392363, zone: 1),
         Station(name: "Bayshore", address: "400 Tunnel Ave., San Francisco 94134 ", lat: 37.707666, long: -122.401758, zone: 1),
@@ -50,7 +61,6 @@ struct Caltrain {
         Station(name: "San Martin", address: "13400 Monterey Hwy., San Martin 95046", lat: 37.085979, long: -121.610466, zone: 6),
         Station(name: "Gilroy", address: "7150 Monterey St., Gilroy 95020", lat: 37.004544, long: -121.566681, zone: 6),*/
     ]
-
 }
 
 struct Station {
@@ -58,11 +68,16 @@ struct Station {
     let address: String
     let coord: CLLocationCoordinate2D
     let zone: Int
+    let platform: MKPolygon
     
-    init(name: String, address: String, lat: CLLocationDegrees, long: CLLocationDegrees, zone: Int) {
+    init(name: String, address: String, zone: Int, center: (CLLocationDegrees, CLLocationDegrees), platform: [(CLLocationDegrees, CLLocationDegrees)]) {
         self.name = name
         self.address = address
-        self.coord = CLLocationCoordinate2D(latitude: lat, longitude: long)
         self.zone = zone
+        self.coord = CLLocationCoordinate2D(latitude: center.0, longitude: center.1)
+        var coords = platform.map { CLLocationCoordinate2D(latitude: $0.0, longitude: $0.1) }
+        self.platform = MKPolygon(coordinates: &coords, count: coords.count)
     }
 }
+
+
