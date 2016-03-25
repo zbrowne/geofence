@@ -8,12 +8,15 @@
 
 import UIKit
 import CoreLocation
+import MapKit
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate {
 
     var window: UIWindow?
     let locationManager = CLLocationManager()
+    var locationArray = [CLLocationCoordinate2D]()
+    let stations = Caltrain.sharedInstance().stations
 
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
@@ -51,30 +54,70 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
     
     func locationManager(manager: CLLocationManager, didEnterRegion region: CLRegion) {
         if region is CLCircularRegion {
-            let notification = UILocalNotification()
-            notification.alertBody = "Entered Region"
-            notification.soundName = "Default"
-            UIApplication.sharedApplication().presentLocalNotificationNow(notification)
             NSLog("Entered Region")
             locationManager.startUpdatingLocation()
+            notifyUserWhenCrossingRegion()
         }
     }
     
     func locationManager(manager: CLLocationManager, didExitRegion region: CLRegion) {
         if region is CLCircularRegion {
-            let notification = UILocalNotification()
-            notification.alertBody = "Exited Region"
-            notification.soundName = "Default"
-            UIApplication.sharedApplication().presentLocalNotificationNow(notification)
             NSLog("Exited Region")
             locationManager.stopUpdatingLocation()
+            notifyUserWhenCrossingRegion()
         }
     }
     
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        print (locations.last?.coordinate)
+        if let location = locations.last {
+        print (location.coordinate)
+        locationArray.append(location.coordinate)
+        }
     }
-
-
+    
+    func isUserOnPlatform(station: Station) -> Bool {
+        
+        // station platform
+        let platformPolygon: CGMutablePathRef = CGPathCreateMutable()
+        var latestUserLocation = CGPoint()
+        for points in station.platform {
+            if (points == station.platform.first!) {
+                CGPathMoveToPoint(platformPolygon, nil, CGFloat(points.0), CGFloat(points.1))
+            }
+            else {
+                CGPathAddLineToPoint(platformPolygon, nil, CGFloat(points.0), CGFloat(points.1))
+            }
+        }
+        
+        // latest reported GPS location of user
+        if let location = locationArray.last {
+            latestUserLocation = CGPointMake(CGFloat(location.latitude), CGFloat(location.longitude))
+            NSLog("latest user location is " + String(latestUserLocation))
+            NSLog(String(locationArray.count))
+        }
+        
+        // check to see if latest reported GPS location of user is in the station platform
+        let pointIsInPolygon: Bool = CGPathContainsPoint(platformPolygon, nil, latestUserLocation, false)
+        NSLog(String(pointIsInPolygon))
+        return pointIsInPolygon
+    }
+    
+    // testing function to see if my "check user location"
+    func notifyUserWhenCrossingRegion() {
+        for station in stations {
+            if isUserOnPlatform(station) == true {
+                let notification = UILocalNotification()
+                notification.alertBody = "You are on the platform"
+                notification.soundName = "Default"
+                UIApplication.sharedApplication().presentLocalNotificationNow(notification)
+            }
+            else {
+                let notification = UILocalNotification()
+                notification.alertBody = "You are NOT on the platform"
+                notification.soundName = "Default"
+                UIApplication.sharedApplication().presentLocalNotificationNow(notification)
+            }
+        }
+    }
 }
 

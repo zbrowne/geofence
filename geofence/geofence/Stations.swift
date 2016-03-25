@@ -22,10 +22,10 @@ struct Caltrain {
             zone: 0,
             center: (37.758986, -122.421330),
             platform: [
-                (37.760054, -122.421502),
+                (37.761665, -122.421657),
                 (37.756936, -122.421185),
                 (37.756945, -122.421078),
-                (37.760062, -122.421384)
+                (37.761678, -122.421550)
             ])
         
         /*Station(name: "San Francisco", address: "700 4th St., San Francisco 94107", lat: 37.775874, long: -122.395556, zone: 1),
@@ -68,15 +68,14 @@ struct Station {
     let address: String
     let coord: CLLocationCoordinate2D
     let zone: Int
-    let platform: MKPolygon
+    let platform: [(CLLocationDegrees, CLLocationDegrees)]
     
     init(name: String, address: String, zone: Int, center: (CLLocationDegrees, CLLocationDegrees), platform: [(CLLocationDegrees, CLLocationDegrees)]) {
         self.name = name
         self.address = address
         self.zone = zone
         self.coord = CLLocationCoordinate2D(latitude: center.0, longitude: center.1)
-        var coords = platform.map { CLLocationCoordinate2D(latitude: $0.0, longitude: $0.1) }
-        self.platform = MKPolygon(coordinates: &coords, count: coords.count)
+        self.platform = platform
     }
 }
 

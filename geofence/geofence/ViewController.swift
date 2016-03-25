@@ -15,8 +15,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
     @IBOutlet weak var mapView: MKMapView!
     
     let locationManager = CLLocationManager()
-    let region = MKCoordinateRegion(center: CLLocationCoordinate2DMake(37.776687, -122.394867), span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01))
     let stations = Caltrain.sharedInstance().stations
+    let region = MKCoordinateRegion(center: Caltrain.sharedInstance().stations[0].coord, span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01))
     let radius = 100.0
 
     override func viewDidLoad() {
@@ -72,7 +72,10 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
     }
     
     func addPlatformBoundary(station: Station) {
-        mapView.addOverlay(station.platform)
+        var stationPolygon: MKPolygon
+        var coords = station.platform.map { CLLocationCoordinate2D(latitude: $0.0, longitude: $0.1) }
+        stationPolygon = MKPolygon(coordinates: &coords, count: coords.count)
+        mapView.addOverlay(stationPolygon)
     }
     
     func setRegion(region: MKCoordinateRegion, animated: Bool) {
@@ -90,6 +93,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         if let overlay = overlay as? MKPolygon {
             let polygonView = MKPolygonRenderer(overlay: overlay)
             polygonView.strokeColor = UIColor.magentaColor()
+            polygonView.fillColor = UIColor.magentaColor()
             return polygonView
         }
         return MKPolylineRenderer()
