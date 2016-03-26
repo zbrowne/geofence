@@ -79,33 +79,34 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
     }
     
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        //TODO: Loop this so that it takes into account possible skipped locations
-        if let location = locations.last {
+        for location in locations {
             
-            // user is in region and on train
-            if stationRegion.containsCoordinate(location.coordinate) && isUserOnTrain(stations[0], location: location) {
-                currentUserState = UserState.OnTrain
-            }
+            if location.horizontalAccuracy < 65 {
                 
-                // user is in region and off train
-            else if stationRegion.containsCoordinate(location.coordinate) && !isUserOnTrain(stations[0], location: location) {
-                currentUserState = UserState.OffTrainAtStation
-            }
+                // user is in region and on train
+                if stationRegion.containsCoordinate(location.coordinate) && isUserOnTrain(stations[0], location: location) {
+                    currentUserState = UserState.OnTrain
+                }
+                    // user is in region and off train
+                else if stationRegion.containsCoordinate(location.coordinate) && !isUserOnTrain(stations[0], location: location) {
+                    currentUserState = UserState.OffTrainAtStation
+                }
+                    // default state away from station
+                else {currentUserState = UserState.Away}
+                NSLog(String(currentUserState))
                 
-            else {currentUserState = UserState.Away}
-            NSLog(String(currentUserState))
-            
-            // append most recent user state to user state array and check for a state change that requires a "Tag Off" notification
-            userStateArray.append(currentUserState)
-            NSLog(String(userStateArray))
-            checkForTagOffStateChange()
-            
-            // call method in ViewController that updates text label to display current user state
-            let nav = window?.rootViewController as? UINavigationController
-            let vc = nav?.visibleViewController as! ViewController
-            
-            vc.updateUserState(currentUserState)
-
+                // append most recent user state to user state array
+                userStateArray.append(currentUserState)
+                NSLog(String(userStateArray))
+                
+                // TESTING ONLY: call method in ViewController that updates text label to display current user state
+                let nav = window?.rootViewController as? UINavigationController
+                let vc = nav?.visibleViewController as! ViewController
+                vc.updateUserState(currentUserState)
+                
+                // check for a state change that requires a "Tag Off" notification
+                checkForTagOffStateChange()
+            }
         }
     }
     
@@ -138,7 +139,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
             notification.alertBody = "Tag Off"
             notification.soundName = "Default"
             UIApplication.sharedApplication().presentLocalNotificationNow(notification)
-            NSLog("Tag Off")
+            NSLog("Tag Off notification triggered")
         }
     }
 }
