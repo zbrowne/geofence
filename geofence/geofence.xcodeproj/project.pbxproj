@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		00211BA81C9B7AF600479A27 /* Geofence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00211BA71C9B7AF600479A27 /* Geofence.swift */; };
 		00211BAA1C9B811E00479A27 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00211BA91C9B811E00479A27 /* Utilities.swift */; };
+		00C509631CA603F50048F6FB /* testlocations2.gpx in Resources */ = {isa = PBXBuildFile; fileRef = 00C509621CA603F50048F6FB /* testlocations2.gpx */; };
 		00CFE8D51C9A333A00843791 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00CFE8D41C9A333A00843791 /* AppDelegate.swift */; };
 		00CFE8D71C9A333A00843791 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00CFE8D61C9A333A00843791 /* ViewController.swift */; };
 		00CFE8DA1C9A333B00843791 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 00CFE8D81C9A333B00843791 /* Main.storyboard */; };
@@ -40,6 +41,7 @@
 /* Begin PBXFileReference section */
 		00211BA71C9B7AF600479A27 /* Geofence.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Geofence.swift; sourceTree = "<group>"; };
 		00211BA91C9B811E00479A27 /* Utilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
+		00C509621CA603F50048F6FB /* testlocations2.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = testlocations2.gpx; sourceTree = "<group>"; };
 		00CFE8D11C9A333A00843791 /* geofence.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = geofence.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		00CFE8D41C9A333A00843791 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		00CFE8D61C9A333A00843791 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -86,6 +88,7 @@
 			isa = PBXGroup;
 			children = (
 				00EDDF8F1C9FA4A600C60F66 /* testlocations.gpx */,
+				00C509621CA603F50048F6FB /* testlocations2.gpx */,
 				00CFE8D31C9A333A00843791 /* geofence */,
 				00CFE8E81C9A333B00843791 /* geofenceTests */,
 				00CFE8F31C9A333B00843791 /* geofenceUITests */,
@@ -250,6 +253,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				00CFE8DF1C9A333B00843791 /* LaunchScreen.storyboard in Resources */,
+				00C509631CA603F50048F6FB /* testlocations2.gpx in Resources */,
 				00CFE8DC1C9A333B00843791 /* Assets.xcassets in Resources */,
 				00EDDF901C9FA4A600C60F66 /* testlocations.gpx in Resources */,
 				00CFE8DA1C9A333B00843791 /* Main.storyboard in Resources */,

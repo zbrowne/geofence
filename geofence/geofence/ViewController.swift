@@ -13,6 +13,7 @@ import MapKit
 class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate {
     
     @IBOutlet weak var mapView: MKMapView!
+    @IBOutlet weak var userState: UILabel!
     
     let locationManager = CLLocationManager()
     let stations = Caltrain.sharedInstance().stations
@@ -101,6 +102,11 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
     
     func locationManager(manager: CLLocationManager, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
         mapView.showsUserLocation = (status == .AuthorizedAlways)
+    }
+    
+    func updateUserState(state: UserState) {
+        print (state.hashValue.description)
+        userState.text = state.hashValue.description
     }
     
     // error handling
