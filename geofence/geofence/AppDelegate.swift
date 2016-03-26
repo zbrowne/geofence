@@ -28,7 +28,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
     var currentUserState = UserState.Away
     var userStateArray = [UserState]()
     let stations = Caltrain.sharedInstance().stations
-    var viewController = ViewController()
     
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
@@ -100,7 +99,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
             userStateArray.append(currentUserState)
             NSLog(String(userStateArray))
             checkForTagOffStateChange()
-            viewController.updateUserState(currentUserState)
+            
+            // call method in ViewController that updates text label to display current user state
+            let nav = window?.rootViewController as? UINavigationController
+            let vc = nav?.visibleViewController as! ViewController
+            
+            vc.updateUserState(currentUserState)
+
         }
     }
     

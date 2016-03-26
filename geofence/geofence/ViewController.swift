@@ -104,9 +104,9 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         mapView.showsUserLocation = (status == .AuthorizedAlways)
     }
     
+    // update text label on map to display current user state
     func updateUserState(state: UserState) {
-        print (state.hashValue.description)
-        userState.text = state.hashValue.description
+        userState?.text = String(state)
     }
     
     // error handling
